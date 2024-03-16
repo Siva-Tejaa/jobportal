@@ -1,37 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Hero from "../components/Hero/Hero";
+import Categories from "../components/Categories/Categories";
 
-import workingMan from "../assets/workingman.png";
-import { HiOutlineSearch } from "react-icons/hi";
+import useAPIFetch from "../utils/customHooks/useAPIFetch";
 
 const HomePage = () => {
+  const [userApiResponse, setUserApiResponse] = useState(null);
+
+  const testAPI = "https://jsonplaceholder.typicode.com/users";
+
+  // Call the useAPIFetch hook outside of useEffect
+  const apiResponse = useAPIFetch({ apiUrl: testAPI });
+
+  useEffect(() => {
+    setUserApiResponse(apiResponse);
+  }, [apiResponse]);
+
   return (
-    <div className="p-2 md:bg-[#F2F3F6] px-40 flex items-center justify-between">
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
-          <div className="md:text-5xl font-bold leading-6">
-            Find <span className="text-[#1A75E8]">Remote</span>
-          </div>
-          <div className="md:text-5xl font-bold leading-6">
-            Job in <span className="text-[#1A75E8]">Worldwide_</span>
-          </div>
-        </div>
-        <div className="text-[#82888e]">
-          Work remotely to companies worldwide
-        </div>
-        <div>
-          <form className="bg-white inline-flex items-center p-2 rounded-md gap-2">
-            <HiOutlineSearch />
-            <input type="text" className="outline-none" />
-            <button className="bg-[#1A75E8] text-white p-2 rounded-md">
-              Search
-            </button>
-          </form>
-        </div>
-      </div>
-      <div>
-        <img src={workingMan} alt="Working Man" />
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Categories />
+      {JSON.stringify(userApiResponse)}
+    </>
   );
 };
 
