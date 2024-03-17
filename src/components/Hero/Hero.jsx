@@ -5,13 +5,13 @@ import { HiOutlineSearch } from "react-icons/hi";
 
 const Hero = () => {
   return (
-    <div className="p-2 md:bg-[#F2F3F6] px-40 flex items-center justify-between">
+    <div className="p-2 py-24 bg-[#E3E8F7] md:bg-[#F2F3F6] md:px-40 flex items-center justify-between">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
-          <div className="md:text-5xl font-bold leading-6">
+          <div className="text-3xl md:text-5xl font-bold leading-6">
             Find <span className="text-[#1A75E8]">Remote</span>
           </div>
-          <div className="md:text-5xl font-bold leading-6">
+          <div className="text-3xl md:text-5xl font-bold leading-6">
             Job in <span className="text-[#1A75E8]">Worldwide_</span>
           </div>
         </div>
@@ -34,7 +34,7 @@ const Hero = () => {
           <div>Designer</div>
         </div>
       </div>
-      <div className="pb-6">
+      <div className="pb-6 hidden md:block">
         <img src={workingMan} alt="Working Man" />
       </div>
     </div>
