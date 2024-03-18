@@ -1,14 +1,22 @@
 import React from "react";
 import "./App.css";
 
-import Header from "./components/Header/Header";
+//React Router
+import { Routes, Route } from "react-router-dom";
+
+//Pages
 import HomePage from "./pages/HomePage";
+import SigninPage from "./pages/SigninPage";
+import SignupPage from "./pages/SignupPage";
 
 const App = () => {
   return (
     <div>
-      <Header />
-      <HomePage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<SignupPage />} />
+        <Route path="/login" element={<SigninPage />} />
+      </Routes>
     </div>
   );
 };
