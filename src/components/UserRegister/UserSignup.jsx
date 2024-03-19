@@ -19,47 +19,30 @@ const UserSignup = () => {
 
   const { firstname, lastname, email, password } = registerData;
 
+  const { loading, response, error, postData } = useAPIPost();
+
   const registerChangeHandler = (e) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
-
-  const { loading, apiResponse, apiError, postAPI } = useAPIPost({
-    URL: USER_REGISTER,
-    postData: registerData,
-    AuthToken: "",
-  });
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(registerData);
 
-    try {
-      await postAPI({ URL: USER_REGISTER, postData: registerData });
-      // Redirect or perform any action after successful registration
-      alert("User Created");
-      console.log(apiResponse);
-      navigate("/login");
-    } catch (error) {
-      // Handle error if registration fails
-      alert("Something Went Wrong");
+    const url = USER_REGISTER;
 
-      console.error("Registration failed:", error);
-    }
-
-    // if (apiError) {
-    //   alert("Something Went Wrong");
-    //   console.log("Something Went Wrong ${apiError}");
-    // } else {
-    //   alert("User Created");
-    //   console.log(apiResponse);
-    // }
+    const res = await postData(url, registerData);
 
     setRegisterData(initialValues);
-  };
 
-  //   useEffect(() => {
-  //     setAPIResponse(apiResponse);
-  //   }, [apiResponse]);
+    // Redirect to login page on successful registration
+    if (res?.success == true) {
+      alert("User Account Created");
+      navigate("/login");
+    } else {
+      alert(`Something Went Wrong...Please Try Again.. ${res?.message}`);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -123,6 +106,8 @@ const UserSignup = () => {
           </button>
         </div>
       </form>
+      {/* {response && <p>Success - {JSON.stringify(response)}</p>}
+      {error && <p>Error - {JSON.stringify(error)}</p>} */}
     </div>
   );
 };

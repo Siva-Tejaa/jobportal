@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from "react";
 
-const useAPIFetch = ({ apiUrl }) => {
-  const [apiResponse, setAPIResponse] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [apiError, setAPIError] = useState(null);
+const useAPIFetch = (url, authToken) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchAPi = async () => {
-    setLoading(true);
     try {
-      const response = await fetch(apiUrl);
+      const headers = {};
+      if (authToken) {
+        headers["Authorization"] = `Bearer ${authToken}`;
+      }
+      const response = await fetch(url, { headers });
       const jsonData = await response.json();
-      setAPIResponse(jsonData);
-      setLoading(false);
+      setData(jsonData);
     } catch (error) {
-      setAPIError(error);
+      setError(error);
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchAPi();
-  }, []);
 
-  return { loading, apiResponse, apiError };
+    // Cleanup function to cancel fetch request if component unmounts
+    return () => {
+      // Cleanup code if needed
+    };
+  }, [url]);
+
+  return { loading, data, error };
 };
 
 export default useAPIFetch;

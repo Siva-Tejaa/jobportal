@@ -1,37 +1,43 @@
 import React, { useState, useEffect } from "react";
 
 const useAPIPost = () => {
-  const [apiResponse, setAPIResponse] = useState([]);
+  const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [apiError, setAPIError] = useState(null);
+  const [error, setError] = useState(null);
 
-  const postAPI = async ({ URL, postData, AuthToken }) => {
+  const postData = async (url, formData, authToken) => {
     setLoading(true);
+
     try {
-      let options = {
+      const options = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${AuthToken}`,
+          Authorization: `Bearer ${authToken}`,
         },
-        body: JSON.stringify(postData),
+        body: JSON.stringify(formData),
       };
 
-      const response = await fetch(URL, options);
-      const jsonData = await response.json();
-      setAPIResponse(jsonData);
-      console.log(jsonData);
-      console.log(apiResponse);
+      const res = await fetch(url, options);
+      const jsonData = await res.json();
+      setResponse(jsonData);
 
-      setLoading(false);
+      if (jsonData?.success == true) {
+        // setResponse(jsonData);
+        return jsonData;
+      } else {
+        // setError(jsonData);
+        return jsonData;
+      }
     } catch (error) {
-      setAPIError(error);
+      setError(error);
+    } finally {
       setLoading(false);
     }
   };
 
-  return { loading, apiResponse, apiError, postAPI };
+  return { loading, response, error, postData };
 };
 
 export default useAPIPost;
