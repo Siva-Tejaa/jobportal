@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import JobGenieLogo from "../../assets/JobGenieLogo.png";
 import { USER_LOGIN } from "../../utils/api/JobsApi";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useAPIPost from "../../utils/customHooks/useAPIPost";
 
@@ -26,7 +26,10 @@ const UserLogin = () => {
   const { loading, response, error, postData } = useAPIPost();
 
   const loginChangeHandler = (e) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value.replace(/\s/g, ""),
+    });
   };
 
   const formSubmitHandler = async (e) => {
@@ -91,6 +94,7 @@ const UserLogin = () => {
             name="password"
             value={password}
             onChange={loginChangeHandler}
+            minLength="6"
             required
           />
         </div>
@@ -108,6 +112,12 @@ const UserLogin = () => {
       </form>
       {/* {response && <p>Success - {JSON.stringify(response)}</p>}
       {error && <p>Error - {JSON.stringify(error)}</p>} */}
+      <div>
+        Don't Have an Account ?
+        <Link to="/register" className="text-sky-600">
+          Register here
+        </Link>
+      </div>
     </div>
   );
 };

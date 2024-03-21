@@ -2,8 +2,9 @@ export const JOB_HOME = "https://nodejs-jobportal-hbs1.onrender.com/";
 
 //Authentication Required
 
-export const ALL_JOBS =
-  "https://nodejs-jobportal-hbs1.onrender.com/all-jobs?page=1&limit=20";
+export const ALL_JOBS = "https://nodejs-jobportal-hbs1.onrender.com/all-jobs";
+
+export const USER_JOBS = "https://nodejs-jobportal-hbs1.onrender.com/user-jobs";
 
 export const CREATE_JOB =
   "https://nodejs-jobportal-hbs1.onrender.com/create-job";

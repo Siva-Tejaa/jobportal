@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import { Context } from "../Context";
 
 const useAPIFetch = (url, authToken) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { logOutHandler } = useContext(Context);
 
   const fetchAPi = async () => {
     try {
@@ -13,6 +17,9 @@ const useAPIFetch = (url, authToken) => {
       }
       const response = await fetch(url, { headers });
       const jsonData = await response.json();
+      if (jsonData?.error?.message == "invalid token") {
+        logOutHandler();
+      }
       setData(jsonData);
     } catch (error) {
       setError(error);

@@ -22,7 +22,10 @@ const UserSignup = () => {
   const { loading, response, error, postData } = useAPIPost();
 
   const registerChangeHandler = (e) => {
-    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+    setRegisterData({
+      ...registerData,
+      [e.target.name]: e.target.value.replace(/\s/g, ""),
+    });
   };
 
   const formSubmitHandler = async (e) => {
@@ -91,6 +94,7 @@ const UserSignup = () => {
             name="password"
             value={password}
             onChange={registerChangeHandler}
+            minLength="6"
             required
           />
         </div>
