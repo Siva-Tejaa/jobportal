@@ -14,6 +14,8 @@ import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import PageNotFound from "./pages/PageNotFound";
 import AllJobsPage from "./pages/AllJobsPage";
+import UserDetailsPage from "./pages/UserDetailsPage";
+import PostJobPage from "./pages/PostJobPage";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -25,6 +27,8 @@ const App = () => {
 
     if (token) {
       setIsLoggedIn(true);
+      const userDet = localStorage.getItem("userDetails");
+      setUserDetails(JSON.parse(userDet));
     }
   }, [isLoggedIn]);
 
@@ -42,6 +46,10 @@ const App = () => {
     return isLoggedIn ? children : <Navigate to="/login" />;
   };
 
+  const AfterLogin = ({ children }) => {
+    return isLoggedIn ? <Navigate to="/" /> : children;
+  };
+
   return (
     <Context.Provider
       value={{
@@ -54,14 +62,48 @@ const App = () => {
     >
       <Routes>
         <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/register" element={<SignupPage />} />
-        <Route exact path="/login" element={<SigninPage />} />
+        <Route
+          exact
+          path="/register"
+          element={
+            <AfterLogin>
+              <SignupPage />
+            </AfterLogin>
+          }
+        />
+        <Route
+          exact
+          path="/login"
+          element={
+            <AfterLogin>
+              <SigninPage />
+            </AfterLogin>
+          }
+        />
         <Route exact path="/alljobs" element={<AllJobsPage />} />
         <Route
           path="/dashboard"
           element={
             <RequireAuth>
               <DashboardPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          exact
+          path="/user-details"
+          element={
+            <RequireAuth>
+              <UserDetailsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          exact
+          path="/postjob"
+          element={
+            <RequireAuth>
+              <PostJobPage />
             </RequireAuth>
           }
         />

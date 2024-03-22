@@ -54,6 +54,8 @@ const UserLogin = () => {
       localStorage.setItem("userName", fullName);
       localStorage.setItem("email", email);
 
+      localStorage.setItem("userDetails", JSON.stringify(res));
+
       setUserDetails(res);
       setIsLoggedIn(true);
 
