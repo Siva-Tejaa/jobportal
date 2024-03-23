@@ -50,18 +50,21 @@ const DashboardPage = () => {
         )}
         {!loading && !error && data?.data?.job?.length > 0 && (
           <div className="flex flex-col gap-4">
-            {data?.data?.job?.slice(0, 10)?.map((job) => (
-              <div className="p-6 flex items-center justify-between border-2 gap-6 rounded-md">
-                <div className="flex flex-col gap-2">
-                  <p className="font-semibold">{job?.position}</p>
-                  <p className="text-sm">{job?.company}</p>
+            {data?.data?.job
+              ?.reverse()
+              .slice(0, 10)
+              ?.map((job) => (
+                <div className="p-6 flex items-center justify-between border-2 gap-6 rounded-md">
+                  <div className="flex flex-col gap-2">
+                    <p className="font-semibold">{job?.position}</p>
+                    <p className="text-sm">{job?.company}</p>
+                  </div>
+                  <div className={workTypeClasses[job?.workType]}>
+                    {job?.workType}
+                  </div>
+                  <div>{dayjs(job?.updatedAt).fromNow()}</div>
                 </div>
-                <div className={workTypeClasses[job?.workType]}>
-                  {job?.workType}
-                </div>
-                <div>{dayjs(job?.updatedAt).fromNow()}</div>
-              </div>
-            ))}
+              ))}
 
             <Link to="/postjob">
               <button className="text-sm font-semibold leading-6 bg-[#1A75E8] text-white px-4 py-2 rounded-md hover:bg-[#5e9be5]">

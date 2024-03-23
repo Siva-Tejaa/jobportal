@@ -17,7 +17,10 @@ const useAPIFetch = (url, authToken) => {
       }
       const response = await fetch(url, { headers });
       const jsonData = await response.json();
-      if (jsonData?.error?.message == "invalid token") {
+      if (
+        jsonData?.error?.message == "invalid token" ||
+        jsonData?.success == false
+      ) {
         logOutHandler();
       }
       setData(jsonData);

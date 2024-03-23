@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { CREATE_JOB } from "../../utils/api/JobsApi";
+import useAPIPost from "../../utils/customHooks/useAPIPost";
+
+import { useNavigate } from "react-router-dom";
 
 const PostJob = () => {
+  const navigate = useNavigate();
   const initialValues = {
     companyName: "",
     companyWebsite: "",
@@ -33,9 +38,35 @@ const PostJob = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const postJobSubmitHandler = (e) => {
+  const { loading, response, error, postData } = useAPIPost();
+
+  const postJobSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    const url = CREATE_JOB;
+    const authToken = localStorage.getItem("jwtToken");
+
+    const res = await postData(
+      url,
+      {
+        company: companyName,
+        position: jobTitle,
+        status: "Interview",
+        workType: jobType,
+        workLocation: "jobLocation",
+      },
+      authToken
+    );
+
+    if (res?.success == true) {
+      // console.log(res);
+      alert(res?.message);
+      navigate("/dashboard");
+    } else {
+      alert(`Something Went Wrong...Please Try Again.. ${res?.message}`);
+      console.log(res);
+    }
   };
 
   return (
@@ -55,11 +86,12 @@ const PostJob = () => {
                 name="companyName"
                 value={companyName}
                 onChange={changeHandler}
+                required
                 className="border-[1px] p-1 rounded-sm focus:outline-[#1A75E8]"
               />
             </label>
             <label className="flex flex-col gap-1">
-              Website*
+              Website
               <input
                 type="url"
                 name="companyWebsite"
@@ -69,7 +101,7 @@ const PostJob = () => {
               />
             </label>
             <label className="flex flex-col gap-1">
-              Logo*
+              Logo
               <input
                 type="file"
                 name="companyLogo"
@@ -83,7 +115,7 @@ const PostJob = () => {
         <div className="flex justify-around gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <p className="font-semibold text-lg">Job Title</p>
+              <p className="font-semibold text-lg">Job Title*</p>
               <input
                 type="text"
                 name="jobTitle"
@@ -103,7 +135,7 @@ const PostJob = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <p className="font-semibold text-lg">Job Type</p>
+              <p className="font-semibold text-lg">Job Type*</p>
               <div className="flex items-center gap-4">
                 <label className="flex gap-1">
                   <input
@@ -151,11 +183,12 @@ const PostJob = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="font-semibold text-lg">Location</p>
+              <p className="font-semibold text-lg">Location*</p>
               <select
                 name="jobLocation"
                 value={jobLocation}
                 onChange={changeHandler}
+                required
                 className="border-[1px] p-2 rounded-sm focus:outline-[#1A75E8]"
               >
                 <option value="" selected disabled>
@@ -274,9 +307,13 @@ const PostJob = () => {
         </div>
         <button
           type="submit"
-          className="text-sm font-semibold leading-6 bg-[#1A75E8] text-white px-4 py-2 rounded-md hover:bg-[#5e9be5]"
+          className={
+            loading
+              ? "p-1 bg-[#b8cfec] text-white w-[100%] cursor-not-allowed"
+              : "p-1 bg-[#1A75E8] text-white w-[100%]"
+          }
         >
-          Post Job
+          {loading ? "Posting Job..." : "Post Job"}
         </button>
       </form>
     </div>
