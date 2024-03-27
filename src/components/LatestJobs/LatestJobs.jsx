@@ -26,7 +26,7 @@ const LatestJobs = () => {
       {error && <p>Error: {JSON.stringify(error)}</p>}
       {!loading && !error && (
         <div className="flex flex-col gap-4">
-          {data?.data?.job?.slice(0, 10)?.map((job) => (
+          {data?.data?.job?.slice(0, 20)?.map((job) => (
             <div className="p-6 flex items-center justify-between border-2 gap-6 rounded-md">
               <div className="flex flex-col gap-2">
                 <p className="font-semibold">{job?.position}</p>
