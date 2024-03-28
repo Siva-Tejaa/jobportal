@@ -30,6 +30,7 @@ const AllJobsPage = () => {
         {error && <p>Error: {JSON.stringify(error)}</p>}
         {!loading && !error && (
           <div className="flex flex-col gap-4">
+            <p className="m-2">Total Jobs : {data?.data?.job?.length}</p>
             {data?.data?.job?.map((job) => (
               <div className="p-6 flex items-center justify-between border-2 gap-6 rounded-md">
                 <div className="flex flex-col gap-2">

@@ -16,6 +16,7 @@ import PageNotFound from "./pages/PageNotFound";
 import AllJobsPage from "./pages/AllJobsPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
 import PostJobPage from "./pages/PostJobPage";
+import UpdateJobPage from "./pages/UpdateJobPage";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -104,6 +105,15 @@ const App = () => {
           element={
             <RequireAuth>
               <PostJobPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          exact
+          path="/updatejob/:jobid"
+          element={
+            <RequireAuth>
+              <UpdateJobPage />
             </RequireAuth>
           }
         />

@@ -5,14 +5,12 @@ import { DELETE_JOB, USER_JOBS } from "../utils/api/JobsApi";
 import useAPIFetch from "../utils/customHooks/useAPIFetch";
 import useAPIDelete from "../utils/customHooks/useAPIDelete";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import nojobs from "../assets/nojobs.png";
-
-import { Link } from "react-router-dom";
 
 // Extend dayjs with the relativeTime plugin
 dayjs.extend(relativeTime);
@@ -94,9 +92,19 @@ const DashboardPage = () => {
                   </div>
                   <div>{dayjs(job?.updatedAt).fromNow()}</div>
                   <div className="flex items-center gap-2">
-                    <button className="bg-[#5CB85C] text-white p-1 rounded-sm">
-                      Update
-                    </button>
+                    <Link
+                      // to={{
+                      //   pathname: `/updatejob/${job?._id}`,
+                      //   state: job,
+                      // }}
+
+                      to={`/updatejob/${job?._id}`}
+                      state={{ jobData: job }}
+                    >
+                      <button className="bg-[#5CB85C] text-white p-1 rounded-sm">
+                        Update
+                      </button>
+                    </Link>
                     <button
                       className="bg-[#D9534F] text-white p-1 rounded-sm"
                       onClick={() => deleteJobHandler(job?._id)}
